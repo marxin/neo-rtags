@@ -14,9 +14,9 @@ class NeoRtags(object):
         self.vim.command('noremap <Leader>rc :call NeoRtagsFindSubclasses()<CR>')
         self.vim.command('noremap <Leader>rC :call NeoRtagsFindSuperclasses()<CR>')
         self.vim.command('noremap <Leader>rd :call NeoRtagsDiagnose()<CR>')
+        self.vim.command('noremap <Leader>rf :call NeoRtagsFindReferences()<CR>')
         self.vim.command('noremap <Leader>rj :call NeoRtagsFollowLocation()<CR>')
         self.vim.command('noremap <Leader>rl :call NeoRtagsListProjects()<CR>')
-        self.vim.command('noremap <Leader>rf :call NeoRtagsFindReferences()<CR>')
         self.vim.command('noremap <Leader>rn :call NeoRtagsFindReferencesByName()<CR>')
         self.vim.command('noremap <Leader>rp :call NeoRtagsJumpToParent()<CR>')
 
