@@ -95,15 +95,15 @@ class NeoRtags(object):
         # delete signs
         self.vim.command('sign unplace *')
 
+        # save current buffer
+        self.vim.command(':w')
+
+        # TODO: fix by using of a blocking version of the --diagnose command
+        time.sleep(1.5);
+
         buffer = self.vim.current.buffer
-        is_modified = bool(self.vim.eval('getbufvar(%d, "&mod")' % buffer.number))
-        content = None
         cmd = '--diagnose %s --synchronous-diagnostics --json' % buffer.name
-        # TODO: rtags currently does not handle --unsaved-file properly
-        if is_modified:
-            content = '\n'.join(buffer[:])
-            cmd += ' --unsaved-file=%s:%d' % (buffer.name, len(content))
-        rc, stdout, stderr = self.run_command (cmd, content)
+        rc, stdout, stderr = self.run_command (cmd)
 
         if rc == 0:
             files = json.loads(stdout)['checkStyle']
@@ -139,6 +139,8 @@ class NeoRtags(object):
             if len(quickfix_errors) > 0:
                 self.vim.funcs.setqflist(quickfix_errors)
                 self.vim.command(':copen')
+            else:
+                self.vim.command(':cclose')
 
     @neovim.function('NeoRtagsCompleteFunction', sync = True)
     def complete_code(self, args):
