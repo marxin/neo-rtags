@@ -14,11 +14,12 @@ class NeoRtags(object):
         self.vim.command('noremap <Leader>rc :call NeoRtagsFindSubclasses()<CR>')
         self.vim.command('noremap <Leader>rC :call NeoRtagsFindSuperclasses()<CR>')
         self.vim.command('noremap <Leader>rd :call NeoRtagsDiagnose()<CR>')
-        self.vim.command('noremap <Leader>rf :call NeoRtagsFindReferences()<CR>')
         self.vim.command('noremap <Leader>rj :call NeoRtagsFollowLocation()<CR>')
         self.vim.command('noremap <Leader>rl :call NeoRtagsListProjects()<CR>')
+        self.vim.command('noremap <Leader>rf :call NeoRtagsFindReferences()<CR>')
         self.vim.command('noremap <Leader>rn :call NeoRtagsFindReferencesByName()<CR>')
         self.vim.command('noremap <Leader>rp :call NeoRtagsJumpToParent()<CR>')
+        self.vim.command('noremap <Leader>rv :call NeoRtagsFindVirtuals()<CR>')
 
         self.vim.command('set completeopt=menuone,noinsert')
         self.vim.command('set completefunc=NeoRtagsCompleteFunction')
@@ -89,6 +90,11 @@ class NeoRtags(object):
                 # TODO: check return value
             except ValueError:
                 pass
+
+    @neovim.function('NeoRtagsFindVirtuals', sync = True)
+    def find_virtuals(self, args):
+        cmd = '--absolute-path -r %s -k --json' % self.get_current_location()
+        self.show_quickfix_locations (cmd)
 
     @neovim.function('NeoRtagsDiagnose')
     def diagnose(self, args):

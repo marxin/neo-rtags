@@ -13,4 +13,5 @@ Rtags client for neovim
 | &lt;Leader&gt;rl | NeoRtagsListProjects | -w | List projects and select a project |
 | &lt;Leader&gt;rf | NeoRtagsFindReferences | -r -e | Find all references |
 | &lt;Leader&gt;rn | NeoRtagsFindReferencesByName | -a -R -e | Find all references by a name |
+| &lt;Leader&gt;rv | NeoRtagsFindVirtuals| -r -k | Find virtuals |
 | &lt;Leader&gt;rp | NeoRtagsJumpToParent | -U --symbol-info-include-parents | Jump to parent |
