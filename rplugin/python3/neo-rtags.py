@@ -3,6 +3,8 @@ import subprocess
 import json
 import time
 
+from itertools import *
+
 @neovim.plugin
 class NeoRtags(object):
     def __init__(self, vim):
@@ -20,6 +22,7 @@ class NeoRtags(object):
         self.vim.command('noremap <Leader>rn :call NeoRtagsFindReferencesByName()<CR>')
         self.vim.command('noremap <Leader>rp :call NeoRtagsJumpToParent()<CR>')
         self.vim.command('noremap <Leader>rv :call NeoRtagsFindVirtuals()<CR>')
+        self.vim.command('noremap <Leader>rw :call NeoRtagsRenameSymbol()<CR>')
 
         self.vim.command('set completeopt=menuone,noinsert')
         self.vim.command('set completefunc=NeoRtagsCompleteFunction')
@@ -148,6 +151,38 @@ class NeoRtags(object):
             else:
                 self.vim.command(':cclose')
 
+    @neovim.function('NeoRtagsRenameSymbol', sync = True)
+    def rename_symbol(self, args):
+        new_name = self.vim.funcs.input('New name: ')
+        cmd = '--absolute-path -r %s -e --rename --json' % self.get_current_location()
+        rc, stdout, stderr = self.run_command (cmd)
+        if rc == 0:
+            data = json.loads(stdout)
+            locations = list(reversed([(x['loc'].split(':')[0], x['loc']) for x in data]))
+
+            # self.vim.api.err_write(str(locations))
+
+            self.vim.command(':w')
+            if len(locations) > 0:
+                rename_all = False
+                for filename, g in groupby(locations, key = lambda x: x[0]):
+                    if not rename_all:
+                        r = self.vim.funcs.confirm('Rename in %s' % filename, "&Yes\nYes to &All\n&No\n&Cancel")
+                        if r == 1:
+                            pass
+                        elif r == 2:
+                            rename_all = True
+                        elif r == 3:
+                            continue
+                        elif r == 4:
+                            self.vim.command(':w')
+                            return
+
+                    for l in g:
+                        self.jump_to_location(l[1])
+                        self.vim.command('normal! ciw%s' % new_name)
+                    self.vim.command(':w')
+
     @neovim.function('NeoRtagsCompleteFunction', sync = True)
     def complete_code(self, args):
         findstart = int(args[0])
@@ -157,12 +192,12 @@ class NeoRtags(object):
         cursor = self.vim.current.window.cursor
         linenum = cursor[0] - 1
         column = cursor[1] - 1
-        
+
         if findstart:
             line = buffer[linenum]
             while column > 0 and line[column].isalnum() or line[column] == '_':
                 column -= 1
-            
+
             return column + 1
         else:
             content = '\n'.join(buffer[:])

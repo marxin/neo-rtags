@@ -15,3 +15,4 @@ Rtags client for neovim
 | &lt;Leader&gt;rn | NeoRtagsFindReferencesByName | -a -R -e | Find all references by a name |
 | &lt;Leader&gt;rv | NeoRtagsFindVirtuals| -r -k | Find virtuals |
 | &lt;Leader&gt;rp | NeoRtagsJumpToParent | -U --symbol-info-include-parents | Jump to parent |
+| &lt;Leader&gt;rw | NeoRtagsRenameSymbol| -r -e --rename | Rename symbol under cursor |
