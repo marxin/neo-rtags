@@ -24,8 +24,10 @@ class NeoRtags(object):
         self.register_mapping('rv', 'NeoRtagsFindVirtuals')
         self.register_mapping('rw', 'NeoRtagsRenameSymbol')
 
-        self.vim.command('set completeopt=menuone,noinsert')
-        self.vim.command('set completefunc=NeoRtagsCompleteFunction')
+        # register code completion if there's any
+        if self.vim.command('echo &completeopt') == None:
+            self.vim.command('set completeopt=menuone,noinsert')
+            self.vim.command('set completefunc=NeoRtagsCompleteFunction')
 
     def register_mapping(self, keys, function):
         self.vim.command('noremap <Leader>%s :call %s()<CR>' % (keys, function))

@@ -1,5 +1,24 @@
 # neo-rtags
-Rtags client for neovim
+[Rtags](https://github.com/Andersbakken/rtags) client for [Neovim](https://github.com/neovim/neovim)
+
+The client is a clone of [vim-rtags](https://github.com/lyuts/vim-rtags), it's 100% written in Python3
+and uses [Python client](https://github.com/neovim/python-client) for Neovim.
+
+## Installation
+
+### Dein
+
+Add following line to your ```~/.config/nvim/init.vim``` file:
+
+```
+call dein#add('marxin/neo-rtags')
+```
+
+and then run in neovim:
+
+```
+:call dein#install()
+```
 
 ## Mapping
 
@@ -16,3 +35,13 @@ Rtags client for neovim
 | &lt;Leader&gt;rv | NeoRtagsFindVirtuals| -r -k | Find virtuals |
 | &lt;Leader&gt;rp | NeoRtagsJumpToParent | -U --symbol-info-include-parents | Jump to parent |
 | &lt;Leader&gt;rw | NeoRtagsRenameSymbol| -r -e --rename | Rename symbol under cursor |
+
+## Code Completion
+
+The plugin registers ```NeoRtagsCompleteFunction``` as ```completefunc``` (i.e. CTRL-X CTRL-U).
+If the function is already set, neo-rtags code completion is not set.
+
+## Troubleshooting
+
+The plugin is work in progress. I welcome any requests for new functionality, configuration and
+also for issue. Please file an issue.
