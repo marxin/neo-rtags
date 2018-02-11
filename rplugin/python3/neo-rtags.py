@@ -12,20 +12,23 @@ class NeoRtags(object):
 
     def init_mapping(self):
         self.vim.command('let g:mapleader=","')
-        self.vim.command('noremap <Leader>ri :call NeoRtagsSymbolInfo()<CR>')
-        self.vim.command('noremap <Leader>rc :call NeoRtagsFindSubclasses()<CR>')
-        self.vim.command('noremap <Leader>rC :call NeoRtagsFindSuperclasses()<CR>')
-        self.vim.command('noremap <Leader>rd :call NeoRtagsDiagnose()<CR>')
-        self.vim.command('noremap <Leader>rj :call NeoRtagsFollowLocation()<CR>')
-        self.vim.command('noremap <Leader>rl :call NeoRtagsListProjects()<CR>')
-        self.vim.command('noremap <Leader>rf :call NeoRtagsFindReferences()<CR>')
-        self.vim.command('noremap <Leader>rn :call NeoRtagsFindReferencesByName()<CR>')
-        self.vim.command('noremap <Leader>rp :call NeoRtagsJumpToParent()<CR>')
-        self.vim.command('noremap <Leader>rv :call NeoRtagsFindVirtuals()<CR>')
-        self.vim.command('noremap <Leader>rw :call NeoRtagsRenameSymbol()<CR>')
+        self.register_mapping('ri', 'NeoRtagsSymbolInfo')
+        self.register_mapping('rc', 'NeoRtagsFindSubclasses')
+        self.register_mapping('rC', 'NeoRtagsFindSuperclasses')
+        self.register_mapping('rd', 'NeoRtagsDiagnose')
+        self.register_mapping('rj', 'NeoRtagsFollowLocation')
+        self.register_mapping('rl', 'NeoRtagsListProjects')
+        self.register_mapping('rf', 'NeoRtagsFindReferences')
+        self.register_mapping('rn', 'NeoRtagsFindReferencesByName')
+        self.register_mapping('rp', 'NeoRtagsJumpToParent')
+        self.register_mapping('rv', 'NeoRtagsFindVirtuals')
+        self.register_mapping('rw', 'NeoRtagsRenameSymbol')
 
         self.vim.command('set completeopt=menuone,noinsert')
         self.vim.command('set completefunc=NeoRtagsCompleteFunction')
+
+    def register_mapping(self, keys, function):
+        self.vim.command('noremap <Leader>%s :call %s()<CR>' % (keys, function))
 
     @neovim.autocmd('VimEnter', sync = True)
     def on_vim_enter(self):
