@@ -1,5 +1,5 @@
 # neo-rtags
-[Rtags](https://github.com/Andersbakken/rtags) client for [Neovim](https://github.com/neovim/neovim)
+[Rtags](https://github.com/Andersbakken/rtags) client for [Neovim](https://github.com/neovim/neovim).
 
 The client is a clone of [vim-rtags](https://github.com/lyuts/vim-rtags), it's 100% written in Python3
 and uses [Python client](https://github.com/neovim/python-client) for Neovim.
@@ -44,4 +44,4 @@ If the function is already set, neo-rtags code completion is not set.
 ## Troubleshooting
 
 The plugin is work in progress. I welcome any requests for new functionality, configuration and
-also for issue. Please file an issue.
+also for seen issue. Please file an issue or write me an email.
