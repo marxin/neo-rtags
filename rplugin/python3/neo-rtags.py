@@ -124,6 +124,9 @@ class NeoRtags(object):
             keys = list(files.keys())
             assert len(keys) == 1
             filename, errors = list(files.items())[0]
+            if errors == None:
+                return
+
             assert filename == buffer.name
 
             quickfix_errors = []
