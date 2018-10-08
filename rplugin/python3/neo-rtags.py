@@ -38,7 +38,7 @@ class NeoRtags(object):
 
     @neovim.function('NeoRtagsSymbolInfo', sync = True)
     def symbol_info(self, args):
-        rc, stdout, stderr = self.run_command ('--absolute-path -U %s' % self.get_current_location())
+        rc, stdout, stderr = self.run_command ('-U %s' % self.get_current_location())
 
         if rc == 0:
             # skip first line as it prints filename and content of current line
@@ -48,26 +48,26 @@ class NeoRtags(object):
 
     @neovim.function('NeoRtagsFindReferences')
     def find_references(self, args):
-        cmd = '--absolute-path -r %s -e --json' % self.get_current_location()
+        cmd = '-r %s -e --json' % self.get_current_location()
         self.show_quickfix_locations (cmd)
 
     @neovim.function('NeoRtagsFindReferencesByName')
     def find_references_by_name(self, args):
         output = self.vim.funcs.input('Symbol: ')
-        cmd = '--absolute-path -a -R %s -e --json' % output
+        cmd = '-a -R %s -e --json' % output
         self.show_quickfix_locations (cmd)
 
     @neovim.function('NeoRtagsFollowLocation')
     def follow_location(self, args):
         # TODO: jump in buffer where the request was triggered
-        rc, stdout, stderr = self.run_command ('--absolute-path -f %s' % self.get_current_location())
+        rc, stdout, stderr = self.run_command ('-f %s' % self.get_current_location())
         if rc == 0 and len(stdout) > 0:
             self.jump_to_location(stdout)
 
     @neovim.function('NeoRtagsJumpToParent')
     def jump_to_parent(self, args):
         # TODO: jump in buffer where the request was triggered
-        rc, stdout, stderr = self.run_command ('--absolute-path -U %s --symbol-info-include-parents --json' % self.get_current_location())
+        rc, stdout, stderr = self.run_command ('-U %s --symbol-info-include-parents --json' % self.get_current_location())
         if rc == 0:
             result = json.loads(stdout)
             if 'parent' in result:
@@ -101,7 +101,7 @@ class NeoRtags(object):
 
     @neovim.function('NeoRtagsFindVirtuals', sync = True)
     def find_virtuals(self, args):
-        cmd = '--absolute-path -r %s -k --json' % self.get_current_location()
+        cmd = '-r %s -k --json' % self.get_current_location()
         self.show_quickfix_locations (cmd)
 
     @neovim.function('NeoRtagsDiagnose')
@@ -162,7 +162,7 @@ class NeoRtags(object):
     @neovim.function('NeoRtagsRenameSymbol', sync = True)
     def rename_symbol(self, args):
         new_name = self.vim.funcs.input('New name: ')
-        cmd = '--absolute-path -r %s -e --rename --json' % self.get_current_location()
+        cmd = '-r %s -e --rename --json' % self.get_current_location()
         rc, stdout, stderr = self.run_command (cmd)
         if rc == 0:
             data = json.loads(stdout)
@@ -309,7 +309,7 @@ class NeoRtags(object):
 
     def get_classes(self, subclasses):
         # TODO: rewrite the API in rtags to provide JSON result
-        rc, stdout, stderr = self.run_command ('--absolute-path --class-hierarchy %s' % self.get_current_location())
+        rc, stdout, stderr = self.run_command ('--class-hierarchy %s' % self.get_current_location())
 
         if rc != 0 or stdout == '':
             return None
