@@ -263,6 +263,8 @@ class NeoRtags(object):
         locations = []
 
         for d in data:
+            if d == None:
+                continue
             parts = d['loc'].split(':')
             assert len(parts) == 4
             locations.append({
