@@ -2,6 +2,7 @@ import neovim
 import subprocess
 import json
 import time
+import os
 
 from itertools import *
 
@@ -336,6 +337,8 @@ class NeoRtags(object):
     def jump_to_location(self, location):
         parts = location.split(':')
         filename = parts[0]
+        if not os.path.isabs(filename):
+            filename = os.path.join(os.getcwd(), filename)
         if filename != self.vim.current.buffer.name:
             self.vim.command(':e ' + filename)
         self.vim.current.window.cursor = [int(parts[1]), int(parts[2]) - 1]
