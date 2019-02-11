@@ -176,16 +176,19 @@ class NeoRtags(object):
                 rename_all = False
                 for filename, g in groupby(locations, key = lambda x: x[0]):
                     if not rename_all:
-                        r = self.vim.funcs.confirm('Rename in %s' % filename, "&Yes\nYes to &All\n&No\n&Cancel")
-                        if r == 1:
-                            pass
-                        elif r == 2:
+                        if 'neortagsAlwaysRename' in self.vim.vars:
                             rename_all = True
-                        elif r == 3:
-                            continue
-                        elif r == 4:
-                            self.vim.command(':w')
-                            return
+                        else:
+                            r = self.vim.funcs.confirm('Rename in %s' % filename, "&Yes\nYes to &All\n&No\n&Cancel")
+                            if r == 1:
+                                pass
+                            elif r == 2:
+                                rename_all = True
+                            elif r == 3:
+                                continue
+                            elif r == 4:
+                                self.vim.command(':w')
+                                return
 
                     for l in g:
                         self.jump_to_location(l[1])

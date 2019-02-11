@@ -41,6 +41,12 @@ and then run in neovim:
 The plugin registers ```NeoRtagsCompleteFunction``` as ```completefunc``` (i.e. CTRL-X CTRL-U).
 If the function is already set, neo-rtags code completion is not set.
 
+## Configuration
+
+| Variable | Description |
+|-|-|
+| let g:neortagsAlwaysRename = 1 | Always rename symbol and do not ask for confirmation |
+
 ## Troubleshooting
 
 The plugin is work in progress. I welcome any requests for new functionality, configuration and
